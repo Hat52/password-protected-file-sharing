@@ -7,4 +7,8 @@ app.get('/',(req,res)=>{
     res.render("index")
 })
 
+app.post('/upload',(req,res)=>{
+    res.send("Hello")
+})
+
 app.listen(process.env.PORT,()=>console.log(`Server is listening on port ${process.env.PORT}`));
