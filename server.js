@@ -24,8 +24,11 @@ app.post('/upload',upload.single('file'),async (req,res)=>{
         fileData.password = await bcrypt.hash(body.password,10)
     }
     const uploadedFile = await File.create(fileData)
-    console.log(uploadedFile)
-    res.send(uploadedFile.originalName)
+    res.render('index',{downloadLink:`${req.headers.origin}/file/${uploadedFile.id}`})
+})
+
+app.get('/file/:id',(req,res)=>{
+    console.log(req)
 })
 
 app.listen(process.env.PORT,()=>console.log(`Server is listening on port ${process.env.PORT}`));
