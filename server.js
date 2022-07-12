@@ -27,8 +27,13 @@ app.post('/upload',upload.single('file'),async (req,res)=>{
     res.render('index',{downloadLink:`${req.headers.origin}/file/${uploadedFile.id}`})
 })
 
-app.get('/file/:id',(req,res)=>{
-    console.log(req)
+app.get('/file/:id',async(req,res)=>{
+    const {params} = req
+    const foundDocument = await File.findById(params.id)
+    foundDocument.downloadCount++
+    await foundDocument.save()
+    res.download(foundDocument.path,foundDocument.originalName)
+    
 })
 
 app.listen(process.env.PORT,()=>console.log(`Server is listening on port ${process.env.PORT}`));
